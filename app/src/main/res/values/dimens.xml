@@ -1,3 +1,3 @@
 <resources>
-    <dimen name="fab_margin">16dp</dimen>
+    <dimen name="vertical_decoration_margin">16dp</dimen>
 </resources>

@@ -1,9 +1,43 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Base.Theme.MVP" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+    <style name="Base.Theme.Pronin" parent="Theme.Material3.Light.NoActionBar">
+        <!-- Surface color -->
+        <item name="colorSurface">@color/white</item>
+        <item name="colorSurfaceBright">@color/white</item>
+        <item name="colorSurfaceContainer">@color/white</item>
+
+        <item name="android:statusBarColor">@color/white</item>
+        <item name="android:navigationBarColor">@color/white</item>
+        <item name="android:windowLightNavigationBar">true</item>
+        <item name="android:windowLightStatusBar">true</item>
     </style>
 
-    <style name="Theme.MVP" parent="Base.Theme.MVP" />
+    <style name="Theme.Pronin" parent="Base.Theme.Pronin" />
+
+    <style name="ShapeAppearanceOverlay.App.CornerSize15Percent" parent="">
+        <item name="cornerSize">15%</item>
+    </style>
+
+    <style name="BasicAppBarLayout" parent="Widget.Material3.AppBarLayout">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:backgroundTint">@android:color/transparent</item>
+    </style>
+
+    <!-- Scroll view -->
+    <style name="ScrollableBase" parent="">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:scrollbars">none</item>
+        <item name="android:clipToPadding">false</item>
+        <item name="android:overScrollMode">never</item>
+    </style>
+
+    <!-- ProgressBar -->
+    <style name="ProgressBar" parent="Widget.Material3.CircularProgressIndicator">
+        <item name="trackThickness">5dp</item>
+        <item name="indicatorColor">@color/progress_bar</item>
+        <item name="android:indeterminate">true</item>
+    </style>
 </resources>
