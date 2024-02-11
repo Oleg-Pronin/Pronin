@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.hannesdorfmann.adapterdelegates4.AsyncListDifferDelegationAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import pronin.oleg.lab_work.R
-import pronin.oleg.lab_work.databinding.FragmentListMovieBinding
+import pronin.oleg.lab_work.databinding.FragmentListFilmsBinding
 import pronin.oleg.lab_work.presentation.decorations.ListRecyclerMarginsDecoration
 import pronin.oleg.lab_work.presentation.screens.detail_film.DetailFilmArgs
 import pronin.oleg.lab_work.presentation.screens.list_films.adapter.FilmDiffUtil
@@ -28,7 +28,7 @@ class ListFilmsFragment : Fragment() {
 
     private val viewModel: ListFilmViewModel by viewModels()
 
-    private var _binding: FragmentListMovieBinding? = null
+    private var _binding: FragmentListFilmsBinding? = null
     private val binding get() = _binding!!
 
     private var _filmAdapter: AsyncListDifferDelegationAdapter<FilmListItem>? = null
@@ -40,7 +40,7 @@ class ListFilmsFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentListMovieBinding.inflate(inflater, container, false)
+        _binding = FragmentListFilmsBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -52,7 +52,7 @@ class ListFilmsFragment : Fragment() {
             filmListAdapterDelegate(
                 onClick = {
                     navController.animNavigate(
-                        R.id.action_ListMovieFragment_to_DetailMovieFragment,
+                        R.id.action_ListFilmsFragment_to_DetailFilmFragment,
                         args = bundleOf(DetailFilmArgs.ARGS_KEY to DetailFilmArgs(filmId = it.id))
                     )
                 }

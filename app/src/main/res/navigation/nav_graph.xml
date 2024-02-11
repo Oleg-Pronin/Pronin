@@ -8,15 +8,15 @@
     <fragment
         android:id="@+id/ListMovieFragment"
         android:name="pronin.oleg.lab_work.presentation.screens.list_films.ListFilmsFragment"
-        tools:layout="@layout/fragment_list_movie">
+        tools:layout="@layout/fragment_list_films">
 
         <action
-            android:id="@+id/action_ListMovieFragment_to_DetailMovieFragment"
+            android:id="@+id/action_ListFilmsFragment_to_DetailFilmFragment"
             app:destination="@id/DetailMovieFragment" />
     </fragment>
 
     <fragment
         android:id="@+id/DetailMovieFragment"
         android:name="pronin.oleg.lab_work.presentation.screens.detail_film.DetailFilmFragment"
-        tools:layout="@layout/fragment_detail_movie"/>
+        tools:layout="@layout/fragment_detail_film"/>
 </navigation>

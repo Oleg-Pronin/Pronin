@@ -9,7 +9,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
-import pronin.oleg.lab_work.databinding.FragmentDetailMovieBinding
+import pronin.oleg.lab_work.databinding.FragmentDetailFilmBinding
 import pronin.oleg.lab_work.domain.models.FilmDomainModel
 import pronin.oleg.lab_work.util.launchCollect
 import pronin.oleg.lab_work.util.repeatOnStart
@@ -35,7 +35,7 @@ class DetailFilmFragment : Fragment() {
         )
     }
 
-    private var _binding: FragmentDetailMovieBinding? = null
+    private var _binding: FragmentDetailFilmBinding? = null
     private val binding get() = _binding!!
 
     private val navController by lazy { findNavController() }
@@ -44,7 +44,7 @@ class DetailFilmFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentDetailMovieBinding.inflate(inflater, container, false)
+        _binding = FragmentDetailFilmBinding.inflate(inflater, container, false)
         return binding.root
     }
 
