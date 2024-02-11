@@ -61,8 +61,8 @@ class ListFilmsFragment : Fragment() {
 
                 addItemDecoration(
                     ListRecyclerMarginsDecoration.verticalListMargins(
-                        firstTop = 8,
-                        lastBottom = 8,
+                        firstTop = resources.getDimensionPixelOffset(R.dimen.first_decoration_margin),
+                        lastBottom = resources.getDimensionPixelOffset(R.dimen.last_decoration_margin),
                         vertical = resources.getDimensionPixelOffset(R.dimen.vertical_decoration_margin)
                     )
                 )
