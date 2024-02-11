@@ -6,8 +6,9 @@
     android:layout_height="wrap_content"
     android:layout_marginHorizontal="16dp"
     android:background="@drawable/shadow_cards"
+    android:foreground="@drawable/foreground_on_press_card"
     android:clickable="true"
-    android:translationZ="8dp"
+    android:translationZ="5dp"
     app:cardCornerRadius="15dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout

@@ -1,3 +1,6 @@
 <resources>
+
     <dimen name="vertical_decoration_margin">16dp</dimen>
+    <dimen name="first_decoration_margin">8dp</dimen>
+    <dimen name="last_decoration_margin">16dp</dimen>
 </resources>
