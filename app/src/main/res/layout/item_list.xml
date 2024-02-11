@@ -6,10 +6,10 @@
     android:layout_height="wrap_content"
     android:layout_marginHorizontal="16dp"
     android:background="@drawable/shadow_cards"
-    android:foreground="@drawable/foreground_on_press_card"
     android:clickable="true"
-    android:translationZ="5dp"
-    app:cardCornerRadius="15dp">
+    android:foreground="@drawable/foreground_on_press_card"
+    android:translationZ="@dimen/card_film_shadow_translation_z"
+    app:cardCornerRadius="@dimen/card_film_corner_radius">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -18,8 +18,8 @@
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/banner"
-            android:layout_width="40dp"
-            android:layout_height="63dp"
+            android:layout_width="@dimen/card_film_banner_width"
+            android:layout_height="@dimen/card_film_banner_height"
             android:layout_margin="15dp"
             android:contentDescription="@string/banner"
             android:scaleType="centerCrop"
@@ -37,9 +37,9 @@
             android:layout_marginEnd="42dp"
             android:ellipsize="end"
             android:maxLines="1"
-            android:textStyle="bold"
             android:textColor="@color/black"
-            android:textSize="18sp"
+            android:textSize="@dimen/title_size_h2"
+            android:textStyle="bold"
             app:layout_constraintBottom_toTopOf="@+id/type"
             app:layout_constraintEnd_toStartOf="@+id/favorite"
             app:layout_constraintHorizontal_bias="0.0"
@@ -63,7 +63,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/black_60"
-            android:textSize="14sp"
+            android:textSize="@dimen/body_size"
             app:layout_constraintBottom_toBottomOf="@+id/banner"
             app:layout_constraintStart_toStartOf="@+id/name"
             app:layout_constraintTop_toBottomOf="@+id/name"

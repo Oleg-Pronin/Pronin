@@ -124,8 +124,8 @@ class ListFilmsFragment : Fragment() {
 
             launchCollect(viewModel.isError) {
                 binding.apply {
-                    errorLayout.root.isGone = !it
                     swipeRefreshLayout.isGone = it
+                    errorLayout.root.isGone = !it
                 }
             }
         }

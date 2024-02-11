@@ -1,6 +1,5 @@
 package pronin.oleg.lab_work.presentation.screens.list_films
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel

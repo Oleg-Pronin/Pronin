@@ -6,8 +6,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.Window
 import androidx.core.view.WindowCompat
 import androidx.core.view.isGone
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
@@ -65,16 +67,18 @@ class DetailFilmFragment : Fragment() {
             )
         }
 
-        setAppearanceLightStatusBars(false)
-
         binding.apply {
             back.setOnClickListener { navController.navigateUp() }
 
+            errorLayout.repeatButton.setOnClickListener {
+                viewModel.initializeItem()
+            }
+
             appBar.addOnOffsetChangedListener { appBarLayout, verticalOffset ->
                 if (abs(verticalOffset) - appBarLayout.totalScrollRange == 0)
-                    setAppearanceLightStatusBars(true)
+                    setAppearanceLightStatusBars(value = true)
                 else if (verticalOffset == 0)
-                    setAppearanceLightStatusBars(false)
+                    setAppearanceLightStatusBars(value = false)
             }
         }
 
@@ -82,6 +86,23 @@ class DetailFilmFragment : Fragment() {
             launchCollect(viewModel.item) {
                 if (it != null)
                     renderFilm(it)
+            }
+
+            launchCollect(viewModel.isInProgress) { progress ->
+                binding.apply {
+                    banner.isVisible = !progress
+                    progressLayout.root.isVisible = progress
+                    layoutInfo.genresLayout.isGone = progress
+                    layoutInfo.countriesLayout.isGone = progress
+                }
+            }
+
+            launchCollect(viewModel.isError) { error ->
+                binding.apply {
+                    banner.isGone = error
+                    errorLayout.root.isGone = !error
+                    layoutInfo.root.isVisible = !error
+                }
             }
         }
     }
@@ -92,9 +113,12 @@ class DetailFilmFragment : Fragment() {
         super.onDestroyView()
     }
 
-    private fun setAppearanceLightStatusBars(value: Boolean) {
+    private fun setAppearanceLightStatusBars(
+        window: Window = requireActivity().window,
+        value: Boolean
+    ) {
         WindowCompat.getInsetsController(
-            requireActivity().window,
+            window,
             requireView()
         ).apply {
             isAppearanceLightStatusBars = value
@@ -110,19 +134,20 @@ class DetailFilmFragment : Fragment() {
                     .into(this)
             }
 
-            name.text = film.nameRu
+            layoutInfo.apply {
+                name.text = film.nameRu
+                description.text = film.description
 
-            description.text = film.description
+                if (film.genres.isEmpty())
+                    genresLayout.isGone = true
+                else
+                    genres.text = film.genres.joinToString(separator = ", ") { it.genre }
 
-            if (film.genres.isEmpty())
-                genresLayout.isGone = true
-            else
-                genres.text = film.genres.joinToString(separator = ", ") { it.genre }
-
-            if (film.countries.isEmpty())
-                countriesLayout.isGone = true
-            else
-                countries.text = film.countries.joinToString(separator = ", ") { it.country }
+                if (film.countries.isEmpty())
+                    countriesLayout.isGone = true
+                else
+                    countries.text = film.countries.joinToString(separator = ", ") { it.country }
+            }
         }
     }
 }

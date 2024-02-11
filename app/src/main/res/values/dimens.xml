@@ -3,4 +3,12 @@
     <dimen name="vertical_decoration_margin">16dp</dimen>
     <dimen name="first_decoration_margin">8dp</dimen>
     <dimen name="last_decoration_margin">16dp</dimen>
+    <dimen name="layout_info_margin_top">30dp</dimen>
+    <dimen name="title_size_h1">20sp</dimen>
+    <dimen name="title_size_h2">18sp</dimen>
+    <dimen name="body_size">14sp</dimen>
+    <dimen name="card_film_corner_radius">15dp</dimen>
+    <dimen name="card_film_banner_width">40dp</dimen>
+    <dimen name="card_film_banner_height">63dp</dimen>
+    <dimen name="card_film_shadow_translation_z">5dp</dimen>
 </resources>

@@ -1,6 +1,5 @@
 package pronin.oleg.lab_work.presentation.screens.detail_film
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
@@ -20,30 +19,50 @@ class DetailFilmViewModel @AssistedInject constructor(
     private val filmInteractor: FilmInteractor
 ) : ViewModel() {
 
+    private val _isInProgress = MutableStateFlow(false)
+    val isInProgress = _isInProgress.asStateFlow()
+
+    private val _isError = MutableStateFlow(false)
+    val isError = _isError.asStateFlow()
+
     private val _viewModelItem = MutableStateFlow<FilmDomainModel?>(null)
     val item = _viewModelItem.asStateFlow()
 
+    private val filmId = args?.filmId
+
     init {
-        args?.let {
-            initializeItem(it.filmId)
-        }
+        initializeItem()
     }
 
-    private fun initializeItem(filmId: Int) = viewModelScope.launch {
-        when (val result = filmInteractor.getFilmById(filmId)) {
-            is RequestResult.Success -> {
-                _viewModelItem.value = result.body
+    private fun setProgress(inProgress: Boolean) {
+        if (inProgress)
+            _isError.value = false
+
+        _isInProgress.value = inProgress
+    }
+
+    fun initializeItem() = viewModelScope.launch {
+        setProgress(true)
+
+        if (filmId == null)
+            _isError.value = true
+        else
+            when (val result = filmInteractor.getFilmById(filmId)) {
+                is RequestResult.Success -> {
+                    _viewModelItem.value = result.body
+                }
+
+                is RequestResult.Error -> {
+                    _isError.value = true
+                }
             }
 
-            is RequestResult.Error -> {
-                Log.d("DD_error", result.errorMessage.toString())
-            }
-        }
+        setProgress(false)
     }
 
     @AssistedFactory
-    interface  Factory {
-        fun create (
+    interface Factory {
+        fun create(
             @Assisted("args") args: DetailFilmArgs?
         ): DetailFilmViewModel
     }
