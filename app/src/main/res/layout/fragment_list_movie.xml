@@ -3,18 +3,20 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBar"
-        style="@style/BasicAppBarLayout">
+        style="@style/BasicAppBarLayout"
+        android:fitsSystemWindows="true">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/basicToolbarContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:contentInsetStart="15dp"
             android:background="@android:color/transparent"
+            app:contentInsetStart="15dp"
             app:layout_scrollFlags="scroll|enterAlways|snap">
 
             <TextView

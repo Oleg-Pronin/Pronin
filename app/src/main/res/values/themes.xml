@@ -1,5 +1,4 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
+<resources>
     <style name="AppTheme" parent="Theme.Material3.Light.NoActionBar">
         <!-- Surface color -->
         <item name="colorSurface">@color/white</item>
@@ -10,6 +9,9 @@
         <item name="android:navigationBarColor">@color/white</item>
         <item name="android:windowLightNavigationBar">true</item>
         <item name="android:windowLightStatusBar">true</item>
+
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <item name="android:windowTranslucentStatus">false</item>
     </style>
 
     <style name="AppTheme.Launcher">

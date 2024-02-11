@@ -7,21 +7,16 @@
 
     <fragment
         android:id="@+id/ListMovieFragment"
-        android:name="pronin.oleg.lab_work.presentation.screens.list_movie.ListFilmsFragment"
+        android:name="pronin.oleg.lab_work.presentation.screens.list_films.ListFilmsFragment"
         tools:layout="@layout/fragment_list_movie">
 
         <action
-            android:id="@+id/action_FirstFragment_to_SecondFragment"
+            android:id="@+id/action_ListMovieFragment_to_DetailMovieFragment"
             app:destination="@id/DetailMovieFragment" />
     </fragment>
 
     <fragment
         android:id="@+id/DetailMovieFragment"
-        android:name="pronin.oleg.lab_work.presentation.screens.detail_movie.DetailMovieFragment"
-        tools:layout="@layout/fragment_detail_movie">
-
-        <action
-            android:id="@+id/action_SecondFragment_to_FirstFragment"
-            app:destination="@id/ListMovieFragment" />
-    </fragment>
+        android:name="pronin.oleg.lab_work.presentation.screens.detail_film.DetailFilmFragment"
+        tools:layout="@layout/fragment_detail_movie"/>
 </navigation>
