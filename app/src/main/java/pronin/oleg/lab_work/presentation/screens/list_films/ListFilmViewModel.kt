@@ -1,4 +1,4 @@
-package pronin.oleg.lab_work.presentation.screens.list_movie
+package pronin.oleg.lab_work.presentation.screens.list_films
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import pronin.oleg.lab_work.domain.interactors.FilmInteractor
 import pronin.oleg.lab_work.domain.utils.RequestResult
-import pronin.oleg.lab_work.presentation.screens.list_movie.adapter.FilmListItem
+import pronin.oleg.lab_work.presentation.screens.list_films.adapter.FilmListItem
 import javax.inject.Inject
 
 @HiltViewModel
