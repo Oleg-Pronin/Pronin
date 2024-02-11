@@ -1,6 +1,5 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
-    <style name="Base.Theme.Pronin" parent="Theme.Material3.Light.NoActionBar">
+<resources>
+    <style name="AppTheme" parent="Theme.Material3.Light.NoActionBar">
         <!-- Surface color -->
         <item name="colorSurface">@color/white</item>
         <item name="colorSurfaceBright">@color/white</item>
@@ -10,9 +9,18 @@
         <item name="android:navigationBarColor">@color/white</item>
         <item name="android:windowLightNavigationBar">true</item>
         <item name="android:windowLightStatusBar">true</item>
+
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <item name="android:windowTranslucentStatus">false</item>
     </style>
 
-    <style name="Theme.Pronin" parent="Base.Theme.Pronin" />
+    <style name="AppTheme.Launcher">
+        <item name="android:windowBackground">@drawable/launch_screen</item>
+        <item name="android:statusBarColor">@color/black</item>
+        <item name="android:navigationBarColor">@color/black</item>
+        <item name="android:windowLightNavigationBar">false</item>
+        <item name="android:windowLightStatusBar">false</item>
+    </style>
 
     <style name="ShapeAppearanceOverlay.App.CornerSize15Percent" parent="">
         <item name="cornerSize">15%</item>

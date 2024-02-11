@@ -1,13 +1,13 @@
 <resources>
     <string name="app_name">LabWork</string>
-    <string name="action_settings">Settings</string>
-    <!-- Strings used for fragments for navigation -->
-    <string name="first_fragment_label">First Fragment</string>
-    <string name="second_fragment_label">Second Fragment</string>
-    <string name="next">Next</string>
-    <string name="previous">Previous</string>
 
     <string name="banner">Баннер</string>
     <string name="popular">Популярные</string>
     <string name="favorite">Избранное</string>
+    <string name="arrow_left">Стрелка влево</string>
+    <string name="genres">Жанры: </string>
+    <string name="countries">Страны: </string>
+    <string name="repeat">Повторить</string>
+    <string name="error_message">Произошла ошибка при загрузке данных,\nпроверьте подключение к сети</string>
+    <string name="error_image">Изображение ошибки</string>
 </resources>

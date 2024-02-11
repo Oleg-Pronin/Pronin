@@ -1,4 +1,4 @@
-package pronin.oleg.lab_work.presentation.screens.list_movie.adapter
+package pronin.oleg.lab_work.presentation.screens.list_films.adapter
 
 import android.util.Log
 import androidx.core.view.isVisible
@@ -6,11 +6,11 @@ import com.bumptech.glide.Glide
 import com.hannesdorfmann.adapterdelegates4.dsl.adapterDelegateViewBinding
 import pronin.oleg.lab_work.databinding.ItemListBinding
 import pronin.oleg.lab_work.databinding.ItemProgressBarBinding
-import pronin.oleg.lab_work.domain.models.FilmDomainModel
+import pronin.oleg.lab_work.domain.models.FilmListDomainModel
 
 
 fun filmListAdapterDelegate(
-    onClick: ((FilmDomainModel) -> Unit)? = null
+    onClick: ((FilmListDomainModel) -> Unit)? = null
 ) = adapterDelegateViewBinding<FilmListItem.Film, FilmListItem, ItemListBinding>(
     viewBinding = { layoutInflater, root ->
         ItemListBinding.inflate(layoutInflater, root, false)
@@ -64,7 +64,7 @@ fun progressBarAdapterDelegate() =
 
 sealed interface FilmListItem {
     data class Film(
-        val body: FilmDomainModel,
+        val body: FilmListDomainModel,
         val isFavorite: Boolean = false
     ) : FilmListItem
 

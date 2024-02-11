@@ -1,22 +1,28 @@
-package pronin.oleg.lab_work.presentation.screens.list_movie
+package pronin.oleg.lab_work.presentation.screens.list_films
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
+import androidx.core.view.WindowCompat
+import androidx.core.view.isGone
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.hannesdorfmann.adapterdelegates4.AsyncListDifferDelegationAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import pronin.oleg.lab_work.R
-import pronin.oleg.lab_work.databinding.FragmentListMovieBinding
+import pronin.oleg.lab_work.databinding.FragmentListFilmsBinding
 import pronin.oleg.lab_work.presentation.decorations.ListRecyclerMarginsDecoration
-import pronin.oleg.lab_work.presentation.screens.list_movie.adapter.FilmDiffUtil
-import pronin.oleg.lab_work.presentation.screens.list_movie.adapter.FilmListItem
-import pronin.oleg.lab_work.presentation.screens.list_movie.adapter.filmListAdapterDelegate
-import pronin.oleg.lab_work.presentation.screens.list_movie.adapter.progressBarAdapterDelegate
+import pronin.oleg.lab_work.presentation.screens.detail_film.DetailFilmArgs
+import pronin.oleg.lab_work.presentation.screens.list_films.adapter.FilmDiffUtil
+import pronin.oleg.lab_work.presentation.screens.list_films.adapter.FilmListItem
+import pronin.oleg.lab_work.presentation.screens.list_films.adapter.filmListAdapterDelegate
+import pronin.oleg.lab_work.presentation.screens.list_films.adapter.progressBarAdapterDelegate
+import pronin.oleg.lab_work.util.animNavigate
 import pronin.oleg.lab_work.util.launchCollect
 import pronin.oleg.lab_work.util.repeatOnStart
 
@@ -25,7 +31,7 @@ class ListFilmsFragment : Fragment() {
 
     private val viewModel: ListFilmViewModel by viewModels()
 
-    private var _binding: FragmentListMovieBinding? = null
+    private var _binding: FragmentListFilmsBinding? = null
     private val binding get() = _binding!!
 
     private var _filmAdapter: AsyncListDifferDelegationAdapter<FilmListItem>? = null
@@ -37,22 +43,49 @@ class ListFilmsFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentListMovieBinding.inflate(inflater, container, false)
+        _binding = FragmentListFilmsBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        requireActivity().window.let { window ->
+            window.statusBarColor = requireContext().getColor(R.color.white)
+
+            WindowCompat.setDecorFitsSystemWindows(
+                window,
+                true
+            )
+
+            WindowCompat.getInsetsController(
+                window,
+                requireView()
+            ).isAppearanceLightStatusBars = true
+        }
+
         _filmAdapter = AsyncListDifferDelegationAdapter(
             FilmDiffUtil(),
             filmListAdapterDelegate(
-                onClick = {}
+                onClick = {
+                    navController.animNavigate(
+                        R.id.action_ListFilmsFragment_to_DetailFilmFragment,
+                        args = bundleOf(
+                            DetailFilmArgs.ARGS_KEY to DetailFilmArgs(filmId = it.id)
+                        )
+                    )
+                }
             ),
             progressBarAdapterDelegate()
         )
 
         binding.apply {
+            swipeRefreshLayout.setOnRefreshListener { viewModel.onSwipeRefresh() }
+
+            errorLayout.repeatButton.setOnClickListener {
+                viewModel.initializeItems()
+            }
+
             title.text = getString(R.string.popular)
 
             listMovies.apply {
@@ -73,6 +106,27 @@ class ListFilmsFragment : Fragment() {
             launchCollect(viewModel.items) {
                 if (_filmAdapter != null)
                     filmAdapter.items = it
+            }
+
+            launchCollect(viewModel.isInProgress) {
+                binding.apply {
+                    listMovies.isVisible = !it
+                    progressLayout.root.isVisible = it
+                }
+            }
+
+            launchCollect(viewModel.isRefreshing) {
+                binding.apply {
+                    listMovies.isVisible = true
+                    swipeRefreshLayout.isRefreshing = it
+                }
+            }
+
+            launchCollect(viewModel.isError) {
+                binding.apply {
+                    swipeRefreshLayout.isGone = it
+                    errorLayout.root.isGone = !it
+                }
             }
         }
     }

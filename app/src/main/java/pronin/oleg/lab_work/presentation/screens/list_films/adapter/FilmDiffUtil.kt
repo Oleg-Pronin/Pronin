@@ -1,4 +1,4 @@
-package pronin.oleg.lab_work.presentation.screens.list_movie.adapter
+package pronin.oleg.lab_work.presentation.screens.list_films.adapter
 
 import androidx.recyclerview.widget.DiffUtil
 
