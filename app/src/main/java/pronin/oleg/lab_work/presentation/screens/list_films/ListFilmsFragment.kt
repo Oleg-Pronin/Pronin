@@ -6,6 +6,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
+import androidx.core.view.WindowCompat
+import androidx.core.view.isGone
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -47,13 +50,29 @@ class ListFilmsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        requireActivity().window.let { window ->
+            window.statusBarColor = requireContext().getColor(R.color.white)
+
+            WindowCompat.setDecorFitsSystemWindows(
+                window,
+                true
+            )
+
+            WindowCompat.getInsetsController(
+                window,
+                requireView()
+            ).isAppearanceLightStatusBars = true
+        }
+
         _filmAdapter = AsyncListDifferDelegationAdapter(
             FilmDiffUtil(),
             filmListAdapterDelegate(
                 onClick = {
                     navController.animNavigate(
                         R.id.action_ListFilmsFragment_to_DetailFilmFragment,
-                        args = bundleOf(DetailFilmArgs.ARGS_KEY to DetailFilmArgs(filmId = it.id))
+                        args = bundleOf(
+                            DetailFilmArgs.ARGS_KEY to DetailFilmArgs(filmId = it.id)
+                        )
                     )
                 }
             ),
@@ -61,6 +80,12 @@ class ListFilmsFragment : Fragment() {
         )
 
         binding.apply {
+            swipeRefreshLayout.setOnRefreshListener { viewModel.onSwipeRefresh() }
+
+            errorLayout.repeatButton.setOnClickListener {
+                viewModel.initializeItems()
+            }
+
             title.text = getString(R.string.popular)
 
             listMovies.apply {
@@ -81,6 +106,27 @@ class ListFilmsFragment : Fragment() {
             launchCollect(viewModel.items) {
                 if (_filmAdapter != null)
                     filmAdapter.items = it
+            }
+
+            launchCollect(viewModel.isInProgress) {
+                binding.apply {
+                    listMovies.isVisible = !it
+                    progressLayout.root.isVisible = it
+                }
+            }
+
+            launchCollect(viewModel.isRefreshing) {
+                binding.apply {
+                    listMovies.isVisible = true
+                    swipeRefreshLayout.isRefreshing = it
+                }
+            }
+
+            launchCollect(viewModel.isError) {
+                binding.apply {
+                    errorLayout.root.isGone = !it
+                    swipeRefreshLayout.isGone = it
+                }
             }
         }
     }

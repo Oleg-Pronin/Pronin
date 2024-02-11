@@ -7,6 +7,6 @@ data class FilmDomainModel(
     val posterUrlPreview: String,
     val year: String,
     val description: String,
-    val countries: List<CountryDomainModal>?,
-    val genres: List<GenreDomainModal>?
+    val countries: List<CountryDomainModal>,
+    val genres: List<GenreDomainModal>
 )

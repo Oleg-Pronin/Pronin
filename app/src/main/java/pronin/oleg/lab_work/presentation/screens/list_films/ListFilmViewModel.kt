@@ -17,6 +17,15 @@ class ListFilmViewModel @Inject constructor(
     private val filmInteractor: FilmInteractor
 ) : ViewModel() {
 
+    private val _isInProgress = MutableStateFlow(false)
+    val isInProgress = _isInProgress.asStateFlow()
+
+    private val _isRefreshing = MutableStateFlow(false)
+    val isRefreshing = _isRefreshing.asStateFlow()
+
+    private val _isError = MutableStateFlow(false)
+    val isError = _isError.asStateFlow()
+
     private val _viewModelItems = MutableStateFlow(emptyList<FilmListItem>())
     val items = _viewModelItems.asStateFlow()
 
@@ -24,7 +33,28 @@ class ListFilmViewModel @Inject constructor(
         initializeItems()
     }
 
-    private fun initializeItems() = viewModelScope.launch {
+    private fun setProgress(inProgress: Boolean) {
+        if (inProgress)
+            _isError.value = false
+
+        _isInProgress.value = inProgress
+    }
+
+    fun initializeItems() = viewModelScope.launch {
+        if (!isRefreshing.value)
+            setProgress(true)
+
+        _viewModelItems.value = emptyList()
+
+        getItems()
+
+        if (!isRefreshing.value)
+            setProgress(false)
+        else
+            _isRefreshing.value = false
+    }
+
+    private suspend fun getItems() {
         when (val result = filmInteractor.getTopFilms(1)) {
             is RequestResult.Success -> {
                 _viewModelItems.value += result.body.items.map {
@@ -33,8 +63,15 @@ class ListFilmViewModel @Inject constructor(
             }
 
             is RequestResult.Error -> {
-                Log.d("DD_error", result.errorMessage.toString())
+                _isError.value = true
             }
         }
+    }
+
+    fun onSwipeRefresh() {
+        _isError.value = false
+        _isRefreshing.value = true
+
+        initializeItems()
     }
 }

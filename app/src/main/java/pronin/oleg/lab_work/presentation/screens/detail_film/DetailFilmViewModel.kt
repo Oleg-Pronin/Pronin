@@ -26,8 +26,6 @@ class DetailFilmViewModel @AssistedInject constructor(
     init {
         args?.let {
             initializeItem(it.filmId)
-        }?.also {
-
         }
     }
 
