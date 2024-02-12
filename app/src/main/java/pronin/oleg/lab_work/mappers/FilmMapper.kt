@@ -15,7 +15,7 @@ fun FilmListModel.toDomain() = FilmListDomainModel(
     posterUrl = posterUrl,
     posterUrlPreview = posterUrlPreview,
     genres = genres?.map { it.toDomain() } ?: emptyList(),
-    year = year
+    year = year ?: ""
 )
 
 fun FilmModel.toDomain() = FilmDomainModel(

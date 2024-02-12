@@ -28,6 +28,11 @@ class ListFilmViewModel @Inject constructor(
     private val _viewModelItems = MutableStateFlow(emptyList<FilmListItem>())
     val items = _viewModelItems.asStateFlow()
 
+    private var pageNumber = 1
+    private var isPaginating = false
+    private var areAllItemsLoaded = false
+    private var isGettingItemsInProgress = false
+
     init {
         initializeItems()
     }
@@ -39,31 +44,23 @@ class ListFilmViewModel @Inject constructor(
         _isInProgress.value = inProgress
     }
 
-    fun initializeItems() = viewModelScope.launch {
-        if (!isRefreshing.value)
-            setProgress(true)
-
+    private fun initializeItems() {
         _viewModelItems.value = emptyList()
 
         getItems()
-
-        if (!isRefreshing.value)
-            setProgress(false)
-        else
-            _isRefreshing.value = false
     }
 
-    private suspend fun getItems() {
-        when (val result = filmInteractor.getTopFilms(1)) {
-            is RequestResult.Success -> {
-                _viewModelItems.value += result.body.items.map {
-                    FilmListItem.Film(body = it)
-                }
-            }
+    fun repeatButtonClicked() {
+        getItems()
+    }
 
-            is RequestResult.Error -> {
-                _isError.value = true
-            }
+    fun onScrolledToLastItem() {
+        if (!isGettingItemsInProgress && !areAllItemsLoaded) {
+            isPaginating = true
+
+            _viewModelItems.value += FilmListItem.ProgressBar
+
+            getItems()
         }
     }
 
@@ -72,5 +69,52 @@ class ListFilmViewModel @Inject constructor(
         _isRefreshing.value = true
 
         initializeItems()
+    }
+
+    private fun getItems() = viewModelScope.launch {
+        if (!isPaginating && !isRefreshing.value)
+            setProgress(true)
+
+        isGettingItemsInProgress = true
+
+        when (val result = filmInteractor.getTopFilms(pageNumber)) {
+            is RequestResult.Success -> {
+                processPaginationResultSuccess(
+                    isLastBatch = result.body.isLastBatch,
+                    items = result.body.items.map {
+                        FilmListItem.Film(body = it)
+                    }
+                )
+            }
+
+            is RequestResult.Error -> {
+                _isError.value = true
+            }
+        }
+
+        if (!isPaginating)
+            if (!isRefreshing.value)
+                setProgress(false)
+            else
+                _isRefreshing.value = false
+        else
+            isPaginating = false
+
+        isGettingItemsInProgress = false
+    }
+
+    private fun processPaginationResultSuccess(
+        isLastBatch: Boolean,
+        items: List<FilmListItem>
+    ) {
+        areAllItemsLoaded = isLastBatch
+
+        if (!isLastBatch)
+            pageNumber++
+
+        if (isPaginating)
+            _viewModelItems.value -= FilmListItem.ProgressBar
+
+        _viewModelItems.value += items
     }
 }
