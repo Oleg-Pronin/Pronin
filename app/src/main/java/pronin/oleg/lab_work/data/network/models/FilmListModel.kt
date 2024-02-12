@@ -7,5 +7,5 @@ data class FilmListModel(
     val posterUrlPreview: String,
     val genres: List<GenreModel>?,
     val countries: List<CountryModel>?,
-    val year: String
+    val year: String?
 )

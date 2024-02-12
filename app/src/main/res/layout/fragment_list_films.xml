@@ -36,15 +36,11 @@
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <androidx.core.widget.NestedScrollView style="@style/ScrollableBase">
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/listMovies"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                tools:listitem="@layout/item_list" />
-
-        </androidx.core.widget.NestedScrollView>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/listMovies"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:listitem="@layout/item_list" />
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 

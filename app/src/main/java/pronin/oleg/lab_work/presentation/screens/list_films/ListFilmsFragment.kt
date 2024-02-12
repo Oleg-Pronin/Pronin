@@ -25,6 +25,7 @@ import pronin.oleg.lab_work.presentation.screens.list_films.adapter.progressBarA
 import pronin.oleg.lab_work.util.animNavigate
 import pronin.oleg.lab_work.util.launchCollect
 import pronin.oleg.lab_work.util.repeatOnStart
+import pronin.oleg.lab_work.util.setPaginationScrollListener
 
 @AndroidEntryPoint
 class ListFilmsFragment : Fragment() {
@@ -83,7 +84,7 @@ class ListFilmsFragment : Fragment() {
             swipeRefreshLayout.setOnRefreshListener { viewModel.onSwipeRefresh() }
 
             errorLayout.repeatButton.setOnClickListener {
-                viewModel.initializeItems()
+                viewModel.repeatButtonClicked()
             }
 
             title.text = getString(R.string.popular)
@@ -99,6 +100,10 @@ class ListFilmsFragment : Fragment() {
                         vertical = resources.getDimensionPixelOffset(R.dimen.vertical_decoration_margin)
                     )
                 )
+
+                setPaginationScrollListener {
+                    viewModel.onScrolledToLastItem()
+                }
             }
         }
 
